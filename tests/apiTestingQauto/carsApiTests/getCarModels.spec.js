@@ -72,14 +72,13 @@ describe("get Car brands test suite", () => {
         expect(carModelsResponse.data.status).toBe("ok");
 
         // array of car models by brand ID
-        const receivedModelsOfBrand = carModelsResponse.data.data.filter((car)=>car.carBrandId===foundBrandID)
+        const receivedModelsOfBrand = carModelsResponse.data.data.filter((car) => car.carBrandId === foundBrandID)
         // array of car models by brand ID in existing list
-        const existingModelsOfBrand = expectedCarModelsList.filter((car)=>car.carBrandId===foundBrandID)
+        const existingModelsOfBrand = expectedCarModelsList.filter((car) => car.carBrandId === foundBrandID)
 
-        console.log(receivedModelsOfBrand);
-        console.log("------------------");
-        console.log(existingModelsOfBrand);
-
+        // console.log(receivedModelsOfBrand);
+        // console.log("------------------");
+        // console.log(existingModelsOfBrand);
 
         expect(receivedModelsOfBrand).toEqual(existingModelsOfBrand);
     });

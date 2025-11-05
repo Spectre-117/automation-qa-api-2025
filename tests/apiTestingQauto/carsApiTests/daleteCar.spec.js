@@ -6,6 +6,7 @@ import AuthController from "../../../src/controllers/AuthController.js";
 import {faker} from '@faker-js/faker';
 import CarsController from "../../../src/controllers/CarsController.js";
 import {QAUTO_API_URL} from "../../../src/constants/api.js";
+import {initialMileageOne} from "../../fixtures/apiCarFixtures.js";
 
 describe("get Car from database test suite", () => {
     const jar = new CookieJar();
@@ -52,7 +53,7 @@ describe("get Car from database test suite", () => {
         const carDataOne = {
             "carBrandId": brandOne.id,
             "carModelId": modelOne.id,
-            "mileage": 160000
+            "mileage": initialMileageOne
         }
 
         const carOneCreateResponse = await carsController.postNewCar(carDataOne);

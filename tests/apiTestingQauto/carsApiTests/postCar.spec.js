@@ -6,6 +6,7 @@ import AuthController from "../../../src/controllers/AuthController.js";
 import {faker} from '@faker-js/faker';
 import CarsController from "../../../src/controllers/CarsController.js";
 import {QAUTO_API_URL} from "../../../src/constants/api.js";
+import {initialMileageOne} from "../../fixtures/apiCarFixtures.js";
 
 describe("post new Car for user test suite", () => {
     const jar = new CookieJar();
@@ -56,17 +57,17 @@ describe("post new Car for user test suite", () => {
         const carData ={
             "carBrandId": brand.id,
             "carModelId": model.id,
-            "mileage": 160000
+            "mileage": initialMileageOne
         }
 
         const expectedCreatedCar = {
             "id": expect.any(Number),
-            "carBrandId": brand.id,
-            "carModelId": model.id,
-            "initialMileage": 160000,
+            "carBrandId": carData.carBrandId,
+            "carModelId": carData.carModelId,
+            "initialMileage": carData.mileage,
             "carCreatedAt": expect.any(String),
             "updatedMileageAt": expect.any(String),   //"2021-05-17T15:26:36.000Z"
-            "mileage": 160000,
+            "mileage": carData.mileage,
             "brand": brand.title,
             "model": model.title,
             "logo": brand.logoFilename
@@ -96,7 +97,7 @@ describe("post new Car for user test suite", () => {
 
         const carData = {
             "carModelId": model.id,
-            "mileage": 160000
+            "mileage": initialMileageOne
         }
 
         const expectedCreatedCar = {
@@ -120,7 +121,7 @@ describe("post new Car for user test suite", () => {
 
         const carData = {
             "carBrandId": brand.id,
-            "mileage": 160000
+            "mileage": initialMileageOne
         }
 
         const expectedCreatedCar = {
@@ -169,7 +170,7 @@ describe("post new Car for user test suite", () => {
         const carData ={
             "carBrandId": brand.id,
             "carModelId": model.id,
-            "mileage": 160000
+            "mileage": initialMileageOne
         }
 
         const expectedResponse = {
@@ -194,7 +195,7 @@ describe("post new Car for user test suite", () => {
         const carData ={
             "carBrandId": "brand.id",
             "carModelId": model.id,
-            "mileage": 160000
+            "mileage": initialMileageOne
         }
 
         const expectedResponse = {
@@ -209,9 +210,6 @@ describe("post new Car for user test suite", () => {
 
     test.skip('add New car to user which is NOT logged in', async () => {
 
-        const signOutResponse = await authController.logOut();
-        expect(signOutResponse.status).toBe(200)
-
         //finding brand and then finding it by title
         const carBrandResponse = await carsController.getBrands();
         const brand = carBrandResponse.data.data[0];
@@ -222,8 +220,11 @@ describe("post new Car for user test suite", () => {
         const carData ={
             "carBrandId": brand.id,
             "carModelId": model.id,
-            "mileage": 160000
+            "mileage": initialMileageOne
         }
+
+        const signOutResponse = await authController.logOut();
+        expect(signOutResponse.status).toBe(200)
 
         const carCreateResponse = await carsController.postNewCar(carData);
         expect(carCreateResponse.status).toBe(401);

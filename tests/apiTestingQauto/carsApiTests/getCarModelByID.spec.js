@@ -7,7 +7,6 @@ import {faker} from '@faker-js/faker';
 import CarsController from "../../../src/controllers/CarsController.js";
 import {QAUTO_API_URL} from "../../../src/constants/api.js";
 
-
 describe("get Car model by ID test suite", () => {
     const jar = new CookieJar();
     const client = wrapper(axios.create({
@@ -55,6 +54,7 @@ describe("get Car model by ID test suite", () => {
         expect(carModelsResponse.status).toBe(200);
         expect(carModelsResponse.data.status).toBe("ok");
         const requiredModelId = carModelsResponse.data.data[0].id;
+        const requiredModelTitle = carModelsResponse.data.data[0].title;
 
         // find model by model ID with particular Brand ID
         const carModelByIDResponse = await carsController.getModelById(requiredModelId);
@@ -63,7 +63,7 @@ describe("get Car model by ID test suite", () => {
             {
                 "id": requiredModelId,
                 "carBrandId": foundBrandID,
-                "title": "TT"
+                "title": requiredModelTitle
             }
         );
 

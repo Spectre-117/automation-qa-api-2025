@@ -6,6 +6,7 @@ import AuthController from "../../../src/controllers/AuthController.js";
 import {faker} from '@faker-js/faker';
 import CarsController from "../../../src/controllers/CarsController.js";
 import {QAUTO_API_URL} from "../../../src/constants/api.js";
+import {initialMileageOne} from "../../fixtures/apiCarFixtures.js";
 
 describe("get Car from database test suite", () => {
     const jar = new CookieJar();
@@ -51,22 +52,22 @@ describe("get Car from database test suite", () => {
         const brand = carBrandResponse.data.data[0];
 
         const carModelResponse = await carsController.getModels();
-        const model = carModelResponse.data.data.find(model => model.carBrandId ===brand.id);
+        const model = carModelResponse.data.data.find(model => model.carBrandId === brand.id);
 
-        const carData ={
+        const carData = {
             "carBrandId": brand.id,
             "carModelId": model.id,
-            "mileage": 160000
+            "mileage": initialMileageOne
         }
 
         const expectedCreatedCar = {
             "id": expect.any(Number),
-            "carBrandId": brand.id,
-            "carModelId": model.id,
-            "initialMileage": 160000,
+            "carBrandId": carData.carBrandId,
+            "carModelId": carData.carModelId,
+            "initialMileage": carData.mileage,
             "carCreatedAt": expect.any(String),
             "updatedMileageAt": expect.any(String),   //"2021-05-17T15:26:36.000Z"
-            "mileage": 160000,
+            "mileage": carData.mileage,
             "brand": brand.title,
             "model": model.title,
             "logo": brand.logoFilename
@@ -90,12 +91,12 @@ describe("get Car from database test suite", () => {
         const brand = carBrandResponse.data.data[0];
 
         const carModelResponse = await carsController.getModels();
-        const model = carModelResponse.data.data.find(model => model.carBrandId ===brand.id);
+        const model = carModelResponse.data.data.find(model => model.carBrandId === brand.id);
 
-        const carData ={
+        const carData = {
             "carBrandId": brand.id,
             "carModelId": model.id,
-            "mileage": 160000
+            "mileage": initialMileageOne
         }
 
         const carCreateResponse = await carsController.postNewCar(carData);
@@ -123,12 +124,12 @@ describe("get Car from database test suite", () => {
         const brand = carBrandResponse.data.data[0];
 
         const carModelResponse = await carsController.getModels();
-        const model = carModelResponse.data.data.find(model => model.carBrandId ===brand.id);
+        const model = carModelResponse.data.data.find(model => model.carBrandId === brand.id);
 
-        const carData ={
+        const carData = {
             "carBrandId": brand.id,
             "carModelId": model.id,
-            "mileage": 160000
+            "mileage": initialMileageOne
         }
 
         const carCreateResponse = await carsController.postNewCar(carData);
@@ -139,8 +140,9 @@ describe("get Car from database test suite", () => {
         const getCreatedCarByID = await carsController.getCarById(createdCarID);
         expect(getCreatedCarByID.status).toBe(404);
         expect(getCreatedCarByID.data).toEqual({
-            "status": "error",
-            "message": "Car not found"}
+                "status": "error",
+                "message": "Car not found"
+            }
         );
     });
 

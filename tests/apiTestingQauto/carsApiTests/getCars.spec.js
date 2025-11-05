@@ -6,6 +6,7 @@ import AuthController from "../../../src/controllers/AuthController.js";
 import {faker} from '@faker-js/faker';
 import CarsController from "../../../src/controllers/CarsController.js";
 import {QAUTO_API_URL} from "../../../src/constants/api.js";
+import {initialMileageOne, initialMileageTwo} from "../../fixtures/apiCarFixtures.js";
 
 describe("get Car from database test suite", () => {
     const jar = new CookieJar();
@@ -59,35 +60,35 @@ describe("get Car from database test suite", () => {
         const carDataOne = {
             "carBrandId": brandOne.id,
             "carModelId": modelOne.id,
-            "mileage": 160000
+            "mileage": initialMileageOne
         }
 
         const carDataTwo = {
             "carBrandId": brandTwo.id,
             "carModelId": modelTwo.id,
-            "mileage": 200000
+            "mileage": initialMileageTwo
         }
 
         const expectedCreatedCarsForUser = [{
             "id": expect.any(Number),
-            "carBrandId": brandOne.id,
-            "carModelId": modelOne.id,
-            "initialMileage": 160000,
+            "carBrandId": carDataOne.carBrandId,
+            "carModelId": carDataOne.carModelId,
+            "initialMileage": carDataOne.mileage,
             "carCreatedAt": expect.any(String),
             "updatedMileageAt": expect.any(String),   //"2021-05-17T15:26:36.000Z"
-            "mileage": 160000,
+            "mileage": carDataOne.mileage,
             "brand": brandOne.title,
             "model": modelOne.title,
             "logo": brandOne.logoFilename
         },
             {
                 "id": expect.any(Number),
-                "carBrandId": brandTwo.id,
-                "carModelId": modelTwo.id,
-                "initialMileage": 200000,
+                "carBrandId": carDataTwo.carBrandId,
+                "carModelId": carDataTwo.carModelId,
+                "initialMileage": carDataTwo.mileage,
                 "carCreatedAt": expect.any(String),
                 "updatedMileageAt": expect.any(String),   //"2021-05-17T15:26:36.000Z"
-                "mileage": 200000,
+                "mileage": carDataTwo.mileage,
                 "brand": brandTwo.title,
                 "model": modelTwo.title,
                 "logo": brandTwo.logoFilename
@@ -120,7 +121,7 @@ describe("get Car from database test suite", () => {
         const carData = {
             "carBrandId": brand.id,
             "carModelId": model.id,
-            "mileage": 160000
+            "mileage": initialMileageTwo
         }
 
         const carCreateResponse = await carsController.postNewCar(carData);
@@ -153,7 +154,7 @@ describe("get Car from database test suite", () => {
         const carData = {
             "carBrandId": brand.id,
             "carModelId": model.id,
-            "mileage": 160000
+            "mileage": initialMileageTwo
         }
 
         const carCreateResponse = await carsController.postNewCar(carData);

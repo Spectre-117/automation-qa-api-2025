@@ -6,6 +6,7 @@ import AuthController from "../../../src/controllers/AuthController.js";
 import {faker} from '@faker-js/faker';
 import CarsController from "../../../src/controllers/CarsController.js";
 import {QAUTO_API_URL} from "../../../src/constants/api.js";
+import {initialMileageOne, updatedMileage} from "../../fixtures/apiCarFixtures.js";
 
 describe("get Car from database test suite", () => {
     const jar = new CookieJar();
@@ -52,9 +53,8 @@ describe("get Car from database test suite", () => {
         const carDataOne = {
             "carBrandId": brandOne.id,
             "carModelId": modelOne.id,
-            "mileage": 160000
+            "mileage": initialMileageOne
         }
-
         const carOneCreateResponse = await carsController.postNewCar(carDataOne);
         expect(carOneCreateResponse.status).toBe(201);
     })
@@ -66,28 +66,22 @@ describe("get Car from database test suite", () => {
         console.log(getCreatedCars.data);
         console.log("--------------")
 
-        const userCarID = getCreatedCars.data.data[0].id;
-        const userCarBrandID = getCreatedCars.data.data[0].carBrandId;
-        const userCarModelID = getCreatedCars.data.data[0].carModelId;
-        const userCarInitialMileage = getCreatedCars.data.data[0].initialMileage;
-        const userCarNewMileage = 235000
-
         const carDataOneUpdated = {
-            "carBrandId": userCarBrandID,
-            "carModelId": userCarModelID,
-            "mileage": userCarNewMileage
+            "carBrandId": getCreatedCars.data.data[0].carBrandId,
+            "carModelId": getCreatedCars.data.data[0].carModelId,
+            "mileage": updatedMileage
         }
 
-        const carOneModifiedResponse = await carsController.putCar(carDataOneUpdated, userCarID);
+        const carOneModifiedResponse = await carsController.putCar(carDataOneUpdated, getCreatedCars.data.data[0].id);
         expect(carOneModifiedResponse.status).toBe(200);
         expect(carOneModifiedResponse.data.data).toEqual({
-            "id": userCarID,
-            "carBrandId": userCarBrandID,
-            "carModelId": userCarModelID,
-            "initialMileage": userCarInitialMileage,
+            "id": getCreatedCars.data.data[0].id,
+            "carBrandId": getCreatedCars.data.data[0].carBrandId,
+            "carModelId": getCreatedCars.data.data[0].carModelId,
+            "initialMileage": getCreatedCars.data.data[0].initialMileage,
             "carCreatedAt": expect.any(String),
             "updatedMileageAt": expect.any(String),
-            "mileage": userCarNewMileage,
+            "mileage": carDataOneUpdated.mileage,
             "brand": getCreatedCars.data.data[0].brand,
             "model": getCreatedCars.data.data[0].model,
             "logo": getCreatedCars.data.data[0].logo
@@ -97,17 +91,17 @@ describe("get Car from database test suite", () => {
         console.log("--------------")
 
         // check if car was changed
-        const getCreatedCarByID = await carsController.getCarById(userCarID);
+        const getCreatedCarByID = await carsController.getCarById(getCreatedCars.data.data[0].id);
         expect(getCreatedCarByID.status).toBe(200);
         expect(getCreatedCarByID.data.status).toBe("ok");
         expect(getCreatedCarByID.data.data).toEqual({
-            "id": userCarID,
-            "carBrandId": userCarBrandID,
-            "carModelId": userCarModelID,
-            "initialMileage": userCarInitialMileage,
+            "id": getCreatedCars.data.data[0].id,
+            "carBrandId": getCreatedCars.data.data[0].carBrandId,
+            "carModelId": getCreatedCars.data.data[0].carModelId,
+            "initialMileage": getCreatedCars.data.data[0].initialMileage,
             "carCreatedAt": expect.any(String),
             "updatedMileageAt": expect.any(String),
-            "mileage": userCarNewMileage,
+            "mileage": carDataOneUpdated.mileage,
             "brand": getCreatedCars.data.data[0].brand,
             "model": getCreatedCars.data.data[0].model,
             "logo": getCreatedCars.data.data[0].logo
@@ -123,21 +117,16 @@ describe("get Car from database test suite", () => {
         console.log(getCreatedCars.data);
         console.log("--------------")
 
-        const userCarID = getCreatedCars.data.data[0].id;
-        const userCarBrandID = getCreatedCars.data.data[0].carBrandId;
-        const userCarModelID = getCreatedCars.data.data[0].carModelId;
-        const userCarNewMileage = 235000
-
         const signOutResponse = await authController.logOut();
         expect(signOutResponse.status).toBe(200)
 
         const carDataOneUpdated = {
-            "carBrandId": userCarBrandID,
-            "carModelId": userCarModelID,
-            "mileage": userCarNewMileage
+            "carBrandId": getCreatedCars.data.data[0].carBrandId,
+            "carModelId": getCreatedCars.data.data[0].carModelId,
+            "mileage": updatedMileage
         }
 
-        const carOneModifiedResponse = await carsController.putCar(carDataOneUpdated, userCarID);
+        const carOneModifiedResponse = await carsController.putCar(carDataOneUpdated, getCreatedCars.data.data[0].id);
         expect(carOneModifiedResponse.status).toBe(401);
         expect(carOneModifiedResponse.data).toEqual({
             "status": "error",
@@ -154,19 +143,13 @@ describe("get Car from database test suite", () => {
         console.log(getCreatedCars.data);
         console.log("--------------")
 
-        const userCarID = getCreatedCars.data.data[0].id;
-        const userCarBrandID = getCreatedCars.data.data[0].carBrandId;
-        const userCarModelID = getCreatedCars.data.data[0].carModelId;
-        const userCarNewMileage = 235000
-
-
         const carDataOneUpdated = {
-            "carBrandId": userCarBrandID,
-            "carModelId": userCarModelID,
-            "mileage": userCarNewMileage
+            "carBrandId": getCreatedCars.data.data[0].carBrandId,
+            "carModelId": getCreatedCars.data.data[0].carModelId,
+            "mileage": updatedMileage
         }
 
-        const carOneModifiedResponse = await carsController.putCar(carDataOneUpdated, userCarID,'/api/cardess');
+        const carOneModifiedResponse = await carsController.putCar(carDataOneUpdated, getCreatedCars.data.data[0].id, '/api/cardess');
         expect(carOneModifiedResponse.status).toBe(404);
         expect(carOneModifiedResponse.data).toEqual({
             "status": "error",
@@ -175,7 +158,7 @@ describe("get Car from database test suite", () => {
         console.log(carOneModifiedResponse.data);
         console.log("--------------")
 
-        const getCreatedCarByID = await carsController.getCarById(userCarID);
+        const getCreatedCarByID = await carsController.getCarById(getCreatedCars.data.data[0].id);
         expect(getCreatedCarByID.status).toBe(200);
         expect(getCreatedCarByID.data.status).toBe("ok");
         expect(getCreatedCarByID.data.data).toMatchObject(getCreatedCars.data.data[0]);
@@ -188,17 +171,12 @@ describe("get Car from database test suite", () => {
         expect(getCreatedCars.status).toBe(200);
         console.log(getCreatedCars.data);
         console.log("--------------")
-
-        const userCarID = getCreatedCars.data.data[0].id;
-        const userCarBrandID = getCreatedCars.data.data[0].carBrandId;
-        const userCarModelID = getCreatedCars.data.data[0].carModelId;
-        const userCarNewMileage = 235000
         const irrelevantUserCarID = '12FDvcx*'
 
         const carDataOneUpdated = {
-            "carBrandId": userCarBrandID,
-            "carModelId": userCarModelID,
-            "mileage": userCarNewMileage
+            "carBrandId": getCreatedCars.data.data[0].carBrandId,
+            "carModelId": getCreatedCars.data.data[0].carModelId,
+            "mileage": updatedMileage
         }
 
         const carOneModifiedResponse = await carsController.putCar(carDataOneUpdated, irrelevantUserCarID);
@@ -211,7 +189,7 @@ describe("get Car from database test suite", () => {
         console.log("--------------")
 
         // check if car wasn't changed
-        const getCreatedCarByID = await carsController.getCarById(userCarID);
+        const getCreatedCarByID = await carsController.getCarById(getCreatedCars.data.data[0].id);
         expect(getCreatedCarByID.status).toBe(200);
         expect(getCreatedCarByID.data.status).toBe("ok");
         expect(getCreatedCarByID.data.data).toMatchObject(getCreatedCars.data.data[0]);
@@ -229,7 +207,7 @@ describe("get Car from database test suite", () => {
 
         const carDataOneUpdated = {}
 
-        const carOneModifiedResponse = await carsController.putCar(carDataOneUpdated,userCarID);
+        const carOneModifiedResponse = await carsController.putCar(carDataOneUpdated, userCarID);
         expect(carOneModifiedResponse.status).toBe(400);
         expect(carOneModifiedResponse.data).toEqual({
             "status": "error",
@@ -237,7 +215,6 @@ describe("get Car from database test suite", () => {
         });
         console.log(carOneModifiedResponse.data);
         console.log("--------------")
-
         // check if car wasn't changed
         const getCreatedCarByID = await carsController.getCarById(userCarID);
         expect(getCreatedCarByID.status).toBe(200);

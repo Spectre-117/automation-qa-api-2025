@@ -51,3 +51,7 @@ export const expectedCarModelsList =    [
     { id: 22, carBrandId: 5, title: 'Punto' },
     { id: 23, carBrandId: 5, title: 'Scudo' }
 ]
+
+export const initialMileageOne = 160000;
+export const initialMileageTwo = 200000;
+export const updatedMileage = 243000;
