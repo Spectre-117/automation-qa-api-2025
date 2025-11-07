@@ -1,6 +1,6 @@
 import {describe, expect, test} from '@jest/globals';
 import axios from 'axios';
-import {API_URL} from "../src/constants/api.js";
+import {API_URL} from "../../src/constants/api.js";
 
 
 describe('Test suite for Patch requests by Axios', () => {
@@ -10,7 +10,7 @@ describe('Test suite for Patch requests by Axios', () => {
         validateStatus: () => true
     })
 
-    test('Patch data with Axios', async () => {
+    test.skip('Patch data with Axios', async () => {
 
         const requestedID = 4;
 

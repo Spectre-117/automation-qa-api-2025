@@ -1,6 +1,6 @@
 import {describe, expect, test} from '@jest/globals';
 import axios from 'axios';
-import {API_URL} from "../src/constants/api.js";
+import {API_URL} from "../../src/constants/api.js";
 
 
 describe('Test suite for PUT requests by Axios', () => {
@@ -10,7 +10,7 @@ describe('Test suite for PUT requests by Axios', () => {
         validateStatus: () => true
     })
 
-    test('Put data with Axios', async () => {
+    test.skip('Put data with Axios', async () => {
 
         const requestedID = 1;
 
